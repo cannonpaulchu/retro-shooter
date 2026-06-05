@@ -19,11 +19,13 @@ GRAY    = (120, 120, 120)
 DARK    = (15, 15, 30)
 
 # Player
-PLAYER_SPEED    = 90   # pixels/sec at internal res
-PLAYER_HP       = 100
-BULLET_SPEED    = 220
-BULLET_DAMAGE   = 25
-SHOOT_COOLDOWN  = 0.25  # seconds
+PLAYER_SPEED      = 130   # max speed pixels/sec at internal res
+PLAYER_ACCEL      = 420   # acceleration rate
+PLAYER_FRICTION   = 8.0   # higher = stops faster (multiplied against velocity)
+PLAYER_HP         = 100
+BULLET_SPEED      = 220
+BULLET_DAMAGE     = 25
+SHOOT_COOLDOWN    = 0.25  # seconds
 
 # Enemies
 ENEMY_DAMAGE    = 10   # HP lost on contact per second
