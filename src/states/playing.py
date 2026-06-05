@@ -28,9 +28,12 @@ class PlayingState:
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 mp = pygame.math.Vector2(pygame.mouse.get_pos()) / SCALE
-                self.player.shoot(mp, self.bullet_group, self.all_sprites)
+                if event.button == 1:
+                    self.player.shoot(mp, self.bullet_group, self.all_sprites)
+                elif event.button == 3:
+                    self.player.set_move_target(mp)
         return None
 
     def update(self, dt):

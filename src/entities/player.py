@@ -24,16 +24,29 @@ class Player(pygame.sprite.Sprite):
         self.hp = PLAYER_HP
         self.shoot_timer = 0.0
         self.invincible_timer = 0.0  # brief invincibility after hit
+        self.move_target = None      # right-click destination
+
+    def set_move_target(self, target_pos):
+        self.move_target = pygame.math.Vector2(target_pos)
 
     def update(self, dt, keys, mouse_pos_internal, bullet_group, all_sprites):
-        # Movement
+        # Movement — arrow/WASD keys take priority; right-click sets a walk target
         direction = pygame.math.Vector2(0, 0)
         if keys[pygame.K_LEFT]  or keys[pygame.K_a]: direction.x -= 1
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]: direction.x += 1
         if keys[pygame.K_UP]    or keys[pygame.K_w]: direction.y -= 1
         if keys[pygame.K_DOWN]  or keys[pygame.K_s]: direction.y += 1
+
         if direction.length() > 0:
             direction = direction.normalize()
+            self.move_target = None  # cancel click-move when keys pressed
+        elif self.move_target is not None:
+            to_target = self.move_target - self.pos
+            if to_target.length() > 2:
+                direction = to_target.normalize()
+            else:
+                self.move_target = None
+
         self.pos += direction * PLAYER_SPEED * dt
         self.pos.x = max(8, min(INTERNAL_W - 8, self.pos.x))
         self.pos.y = max(8, min(INTERNAL_H - 8, self.pos.y))
